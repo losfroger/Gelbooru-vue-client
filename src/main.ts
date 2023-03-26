@@ -5,6 +5,11 @@ import App from './App.vue'
 import './styles/global.css'
 import vuetify from './plugins/vuetify'
 
-createApp(App)
-.use(vuetify)
-.mount('#app')
+import router from './router'
+
+const app = createApp(App)
+
+app.use(router)
+app.use(vuetify)
+
+app.mount('#app')
