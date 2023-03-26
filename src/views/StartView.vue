@@ -1,9 +1,14 @@
 <template>
   <div class="tw-flex tw-flex-col tw-items-center">
-    <v-fade-transition group>
+    <v-fade-transition
+      group
+      leave-absolute
+    >
       <LoginCard v-if="!authStore.logged_in" />
       <v-card v-else>
-        Logged in!
+        <v-card-title>
+          Logged in!
+        </v-card-title>
       </v-card>
     </v-fade-transition>
   </div>

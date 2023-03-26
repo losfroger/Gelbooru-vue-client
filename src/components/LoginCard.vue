@@ -7,18 +7,21 @@
     <v-card-text>
       <v-form ref="loginForm">
         <v-row>
-          <v-col>
-            <v-text-field
-              v-model="form.api_key"
-              label="API Key"
-              :rules="[(v) => !!v || 'Please provide your API key']"
-            />
-          </v-col>
-          <v-col>
+          <v-col cols="12">
             <v-text-field
               v-model="form.user_id"
+              prepend-icon="mdi-account"
               label="User ID"
               :rules="[(v) => !!v || 'Please provide your user ID']"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="form.api_key"
+              prepend-icon="mdi-key"
+              type="password"
+              label="API Key"
+              :rules="[(v) => !!v || 'Please provide your API key']"
             />
           </v-col>
         </v-row>
@@ -29,7 +32,6 @@
       <v-card-actions class="tw-mt-8">
         <v-spacer />
         <v-btn
-          variant="tonal"
           color="primary"
           @click="onSubmit"
         >

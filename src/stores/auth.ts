@@ -36,6 +36,8 @@ export const useAuthStore = defineStore('auth', () => {
     axios.defaults.headers.common['user_id'] = newApi_key
 
     logged_in.value = true
+
+    axios.post('/login')
   }
 
   function logout() {
@@ -47,6 +49,8 @@ export const useAuthStore = defineStore('auth', () => {
 
     api_key.value = ''
     user_id.value = ''
+
+    logged_in.value = false
   }
 
   return {
