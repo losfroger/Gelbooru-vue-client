@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
 import axios from 'axios'
 
 axios.get('http://127.0.0.1:5001/post?pid=1')
