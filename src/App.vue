@@ -1,32 +1,32 @@
 <script setup lang="ts">
+import SiteAppBar from '@/components/SiteAppBar.vue'
+
 import axios from 'axios'
 
-axios.get('http://127.0.0.1:5001/post?pid=1')
-.then((result) => {
-  console.log(result)
-}).catch((err) => {
-  console.log(err)
-});
+axios.defaults.baseURL = 'http://127.0.0.1:5001/'
 
 </script>
 
 <template>
-  <div>
-    <RouterView />
-  </div>
+  <v-app>
+    <v-layout>
+      <SiteAppBar />
+      <v-navigation-drawer>
+        <v-list>
+          <v-list-item title="Navigation drawer" />
+        </v-list>
+      </v-navigation-drawer>
+      <v-main class="tw-min-h-[98vh] tw-overflow-y-auto tw-max-h-screen">
+        <v-container
+          fluid
+          class="tw-h-full tw-pt-8"
+        >
+          <RouterView />
+        </v-container>
+      </v-main>
+    </v-layout>
+  </v-app>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
 </style>
