@@ -1,5 +1,12 @@
 <template>
   <v-app-bar title="Gelbooru Vue">
+    <template #prepend>
+      <v-img
+        src="/gelbooru-logo.svg"
+        contain
+        width="40px"
+      />
+    </template>
     <template #append>
       <v-menu
         location="bottom"

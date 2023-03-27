@@ -1,55 +1,46 @@
 <template>
-  <v-card
-    class="tw-w-60"
-  >
+  <v-card class="tw-w-full">
     <v-img
       width="100%"
       aspect-ratio="1"
       cover
       :src="propsPostCard.post.preview_url"
       alt=""
-      class="tw-relative"
-    >
-      <v-btn
-        class="tw-m-1"
-        icon="mdi-open-in-new"
-        size="small"
-        color="secondary"
-        variant="text"
-        :href="`https://gelbooru.com/index.php?page=post&s=view&id=${propsPostCard.post.id}`"
-        target="_blank"
-      />
-    </v-img>
-    <v-card-title class="tw-flex tw-flex-row tw-items-center">
-      Score: {{ propsPostCard.post.score }}
-      <v-spacer />
-      <RatingChip
-        variant="tonal"
-        size="small"
-        class="tw-mr-0"
-        :rating="propsPostCard.post.rating"
-      />
-    </v-card-title>
-    <v-card-text />
-    <v-card-actions>
-      <v-spacer />
-      <v-btn
-        :icon="expand ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-        @click="expand = !expand"
-      />
-    </v-card-actions>
-    <v-expand-transition>
-      <div v-if="expand">
-        <div class="tw-px-4 tw-pb-4 tw-flex tw-flex-row tw-flex-wrap tw-gap-1">
+    />
+    <div class="tw-px-4 tw-pb-4">
+      <div class="tw-pt-1">
+        <v-card-title class="tw-flex tw-flex-row tw-items-center tw-p-0">
+          Score: {{ propsPostCard.post.score }}
+          <v-spacer />
+        </v-card-title>
+        <h2 class="text-caption">
+          {{ propsPostCard.post.owner }}
+        </h2>
+      </div>
+      <v-divider class="tw-my-2" />
+      <div class=" tw-my-auto">
+        <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-1">
+          <RatingChip
+            variant="tonal"
+            size="x-small"
+            class=""
+            :rating="propsPostCard.post.rating"
+          />
           <TagChip
-            v-for="(tag, i) in propsPostCard.post.tags_array"
+            v-for="(tag, i) in propsPostCard.post.tags_array.slice(0, 3)"
             :key="i"
             :tag="tag"
             size="x-small"
           />
+          <v-chip
+            v-if="propsPostCard.post.tags_array.length > 3"
+            size="x-small"
+          >
+            +{{ propsPostCard.post.tags_array.length - 3 }} more
+          </v-chip>
         </div>
       </div>
-    </v-expand-transition>
+    </div>
   </v-card>
 </template>
 
@@ -111,5 +102,4 @@ const propsPostCard = defineProps({
 </script>
 
 <style scoped>
-
 </style>

@@ -5,12 +5,14 @@
     </div>
     <div
       v-else
+      class="tw-max-w-7xl"
     >
-      <PostSearchBar />
-      <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-4 tw-w-full tw-justify-center tw-items-start">
+      <PostSearchBar class="tw-mx-auto" />
+      <div class="tw-grid tw-grid-cols-5 tw-gap-4">
         <PostCard
           v-for="(post, i) in posts"
           :key="i"
+          class="tw-w-1/6"
           :post="post"
         />
       </div>
@@ -35,8 +37,8 @@ const authStore = useAuthStore()
 const loading = ref(true)
 
 axios.get('/post', {params: {
-  pid: 1,
-  tags: 'rating:sensitive'
+  pid: 0,
+  tags: 'fav:924874 sort:score'
 }})
 .then((result) => {
   posts.value = (result.data.post.map(

@@ -4,11 +4,7 @@
     variant="tonal"
     color="primary"
   >
-    <div>
-      <div class="text">
-        {{ propTagChip.tag }}
-      </div>
-    </div>
+    {{ propTagChip.tag }}
   </v-chip>
 </template>
 
