@@ -20,7 +20,10 @@ axios.defaults.baseURL = 'http://127.0.0.1:5001/'
 <template>
   <v-app>
     <SiteAppBar />
-    <v-navigation-drawer>
+    <v-navigation-drawer
+      expand-on-hover
+      rail
+    >
       <v-list nav>
         <v-list-item
           v-for="(item, i) in itemList"
