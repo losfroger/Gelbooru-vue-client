@@ -19,7 +19,6 @@ import LoginCard from '@/components/LoginCard.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
-authStore.check_credentials()
 
 </script>
 

@@ -19,6 +19,9 @@ export const useAuthStore = defineStore('auth', () => {
       api_key.value = aux_api_key
       user_id.value = aux_user_id
 
+      axios.defaults.headers.common['api_key'] = aux_api_key
+      axios.defaults.headers.common['user_id'] = aux_user_id
+
       logged_in.value = true
     }
 
@@ -33,7 +36,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.setItem('user_id', newUser_id)
 
     axios.defaults.headers.common['api_key'] = newApi_key
-    axios.defaults.headers.common['user_id'] = newApi_key
+    axios.defaults.headers.common['user_id'] = newUser_id
 
     logged_in.value = true
 
