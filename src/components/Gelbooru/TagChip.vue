@@ -4,7 +4,9 @@
     variant="tonal"
     color="primary"
   >
-    {{ propTagChip.tag }}
+    <span class="tw-capitalize">
+      {{ propTagChip.tag.replaceAll('_', ' ') }}
+    </span>
   </v-chip>
 </template>
 
