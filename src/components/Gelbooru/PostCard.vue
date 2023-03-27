@@ -11,7 +11,7 @@
       class="tw-relative"
     >
       <v-btn
-        class="tw-absolute tw-drop-shadow-lg tw-bottom-2 tw-right-2"
+        class="tw-m-1"
         icon="mdi-open-in-new"
         size="small"
         color="secondary"
@@ -20,14 +20,18 @@
         target="_blank"
       />
     </v-img>
+    <v-card-title class="tw-flex tw-flex-row tw-items-center">
+      Score: {{ propsPostCard.post.score }}
+      <v-spacer />
+      <RatingChip
+        variant="tonal"
+        size="small"
+        class="tw-mr-0"
+        :rating="propsPostCard.post.rating"
+      />
+    </v-card-title>
+    <v-card-text />
     <v-card-actions>
-      <v-card-subtitle>
-        <v-icon
-          icon="mdi-account-outline"
-          start
-        />
-        {{ propsPostCard.post.owner }}
-      </v-card-subtitle>
       <v-spacer />
       <v-btn
         :icon="expand ? 'mdi-chevron-up' : 'mdi-chevron-down'"
@@ -41,6 +45,7 @@
             v-for="(tag, i) in propsPostCard.post.tags_array"
             :key="i"
             :tag="tag"
+            size="x-small"
           />
         </div>
       </div>
@@ -54,6 +59,7 @@ import { PropType } from 'vue'
 
 import { GelbooruPost } from '@/types/gelbooru'
 import TagChip from './TagChip.vue'
+import RatingChip from './RatingChip.vue'
 
 
 const expand = ref(false)
