@@ -1,12 +1,22 @@
 <template>
   <v-card class="tw-w-full">
-    <v-img
-      width="100%"
-      aspect-ratio="1"
-      cover
-      :src="propsPostCard.post.preview_url"
-      alt=""
-    />
+    <div class="tw-w-full tw-aspect-square tw-relative tw-overflow-clip tw-shadow-xl">
+      <v-img
+        width="100%"
+        aspect-ratio="1"
+        cover
+        :src="propsPostCard.post.preview_url"
+        class="tw-absolute tw-top-0 tw-blur-lg tw-opacity-60"
+        alt=""
+      />
+      <v-img
+        width="100%"
+        aspect-ratio="1"
+        :src="propsPostCard.post.preview_url"
+        class="tw-absolute tw-top-0"
+        alt=""
+      />
+    </div>
     <div class="tw-px-4 tw-pb-4">
       <div class="tw-pt-1">
         <v-card-title class="tw-flex tw-flex-row tw-items-center tw-p-0">
