@@ -1,11 +1,11 @@
 <template>
-  <div class="search-bar tw-flex tw-flex-row tw-gap-2 tw-justify-center">
+  <div class="search-bar tw-flex tw-flex-row tw-justify-center tw-gap-2">
     <v-text-field
       class="tw-w-4/5"
       label="Search"
       prepend-inner-icon="mdi-magnify"
     />
-    <div class="tw-w-1/5 tw-flex tw-flex-row tw-gap-2">
+    <div class="tw-flex tw-w-1/5 tw-flex-row tw-gap-2">
       <v-select
         :items="select.items"
         label="Sort by"

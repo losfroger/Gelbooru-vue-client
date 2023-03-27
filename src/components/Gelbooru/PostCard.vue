@@ -1,12 +1,12 @@
 <template>
   <v-card class="tw-w-full">
-    <div class="tw-w-full tw-aspect-square tw-relative tw-overflow-clip tw-shadow-xl">
+    <div class="tw-relative tw-aspect-square tw-w-full tw-overflow-clip tw-shadow-xl">
       <v-img
         width="100%"
         aspect-ratio="1"
         cover
         :src="propsPostCard.post.preview_url"
-        class="tw-absolute tw-top-0 tw-blur-lg tw-opacity-60"
+        class="tw-absolute tw-top-0 tw-opacity-60 tw-blur-lg"
         alt=""
       />
       <v-img
