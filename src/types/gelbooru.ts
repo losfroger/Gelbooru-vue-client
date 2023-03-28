@@ -44,3 +44,8 @@ export interface GelbooruTag {
   ambiguous: number,
   type_string: string,
 }
+
+export interface GelbooruUser {
+  owner: string,
+  creator_id: number,
+}
