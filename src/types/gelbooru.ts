@@ -35,3 +35,12 @@ export interface GelbooruPost {
   has_children: string,
   has_children_bool: boolean,
 }
+
+export interface GelbooruTag {
+  id: number,
+  name: string,
+  count: number,
+  type: number,
+  ambiguous: number,
+  type_string: string,
+}
