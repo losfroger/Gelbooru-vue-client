@@ -1,27 +1,48 @@
 <template>
-  <v-card class="tw-w-full">
+  <v-card class="tw-flex tw-w-full tw-flex-col">
     <div class="tw-relative tw-aspect-square tw-w-full tw-overflow-clip tw-shadow-xl">
       <v-img
         width="100%"
         aspect-ratio="1"
         cover
         :src="propsPostCard.post.preview_url"
-        class="tw-absolute tw-top-0 tw-opacity-60 tw-blur-lg"
+        class="tw-absolute tw-top-0 tw-opacity-40 tw-blur-lg"
         alt=""
       />
-      <v-img
-        width="100%"
-        aspect-ratio="1"
-        :src="propsPostCard.post.preview_url"
-        class="tw-absolute tw-top-0"
-        alt=""
-      />
+      <a :href="`https://gelbooru.com/index.php?page=post&s=view&id=${propsPostCard.post.id}`">
+        <v-img
+          width="100%"
+          aspect-ratio="1"
+          :src="propsPostCard.post.preview_url"
+          class="tw-absolute tw-top-0 tw-shadow-sm"
+          alt=""
+        />
+      </a>
     </div>
     <div class="tw-px-4 tw-pb-4">
       <div class="tw-pt-1">
-        <v-card-title class="tw-flex tw-flex-row tw-items-center tw-p-0">
-          Score: {{ propsPostCard.post.score }}
+        <v-card-title class="tw-flex tw-flex-row tw-items-center tw-gap-1 tw-p-0">
+          Score: {{ formatter.format(propsPostCard.post.score) }}
           <v-spacer />
+          <v-icon
+            size="18"
+            :color="propsPostCard.post.has_note_bool ? 'secondary' : 'grey-darken-1'"
+            :title="propsPostCard.post.has_note_bool ? 'Has notes' : ''"
+            icon="mdi-note-outline"
+          />
+          <v-icon
+            size="18"
+            :color="propsPostCard.post.has_comments_bool ? 'secondary' : 'grey-darken-1'"
+            :title="propsPostCard.post.has_comments_bool ? 'Has comments' : ''"
+            icon="mdi-comment-outline"
+          />
+
+          <v-icon
+            size="18"
+            :color="propsPostCard.post.has_children_bool ? 'secondary' : 'grey-darken-1'"
+            :title="propsPostCard.post.has_children_bool ? 'has_children' : ''"
+            icon="mdi-file-tree"
+          />
         </v-card-title>
         <h2 class="text-caption">
           {{ propsPostCard.post.owner }}
@@ -64,6 +85,7 @@ import RatingChip from './RatingChip.vue'
 
 
 const expand = ref(false)
+const formatter = Intl.NumberFormat('en', {notation: 'compact'})
 
 const propsPostCard = defineProps({
   post: {
