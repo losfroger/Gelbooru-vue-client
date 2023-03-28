@@ -26,26 +26,26 @@
           <v-spacer />
           <v-icon
             size="18"
-            :color="propsPostCard.post.has_note_bool ? 'secondary' : 'grey-darken-1'"
+            :color="propsPostCard.post.has_note_bool ? 'accent' : 'grey-darken-1'"
             :title="propsPostCard.post.has_note_bool ? 'Has notes' : ''"
             icon="mdi-note-outline"
           />
           <v-icon
             size="18"
-            :color="propsPostCard.post.has_comments_bool ? 'secondary' : 'grey-darken-1'"
+            :color="propsPostCard.post.has_comments_bool ? 'accent' : 'grey-darken-1'"
             :title="propsPostCard.post.has_comments_bool ? 'Has comments' : ''"
             icon="mdi-comment-outline"
           />
 
           <v-icon
             size="18"
-            :color="propsPostCard.post.has_children_bool ? 'secondary' : 'grey-darken-1'"
+            :color="propsPostCard.post.has_children_bool ? 'accent' : 'grey-darken-1'"
             :title="propsPostCard.post.has_children_bool ? 'has_children' : ''"
             icon="mdi-file-tree"
           />
         </v-card-title>
         <h2 class="text-caption">
-          {{ propsPostCard.post.owner }}
+          <UserLink :user="{creator_id: propsPostCard.post.creator_id, owner: propsPostCard.post.owner}" />
         </h2>
       </div>
       <v-divider class="tw-my-2" />
@@ -82,6 +82,7 @@ import { PropType } from 'vue'
 import { GelbooruPost } from '@/types/gelbooru'
 import TagChip from './TagChip.vue'
 import RatingChip from './RatingChip.vue'
+import UserLink from './UserLink.vue'
 
 
 const expand = ref(false)
