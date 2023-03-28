@@ -2,7 +2,7 @@
   <v-chip
     v-bind="$attrs"
     variant="tonal"
-    color="primary"
+    color="secondary"
   >
     <span class="tw-capitalize">
       {{ propTagChip.tag.replaceAll('_', ' ') }}
