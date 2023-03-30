@@ -20,7 +20,7 @@ const itemList = ref([
 ])
 
 
-axios.defaults.baseURL = 'http://192.168.0.142:5000/'
+axios.defaults.baseURL = 'http://192.168.0.124:5000/'
 
 </script>
 
