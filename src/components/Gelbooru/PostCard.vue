@@ -21,6 +21,26 @@
           alt=""
         />
       </a>
+      <div class="tw-absolute tw-top-0 tw-flex tw-flex-row tw-p-1 tw-drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+        <v-icon
+          v-if="propsPostCard.post.is_video"
+          color="accent"
+          title="Video"
+          icon="mdi-play-outline"
+        />
+        <v-icon
+          v-if="propsPostCard.post.is_irl"
+          color="accent"
+          title="Photo medium"
+          icon="mdi-image-outline"
+        />
+        <v-icon
+          v-if="propsPostCard.post.is_3d"
+          color="accent"
+          title="3D"
+          icon="mdi-cube-outline"
+        />
+      </div>
     </div>
     <div class="tw-px-4 tw-pb-4">
       <div class="tw-pt-1">
