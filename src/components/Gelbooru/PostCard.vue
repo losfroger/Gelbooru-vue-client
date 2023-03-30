@@ -156,6 +156,7 @@ const propsPostCard = defineProps({
       has_children_bool: false,
       is_3d: false,
       is_video: false,
+      is_irl: false,
     })
   }
 })
