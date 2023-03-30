@@ -22,7 +22,7 @@
     <div class="tw-px-4 tw-pb-4">
       <div class="tw-pt-1">
         <v-card-title class="tw-flex tw-flex-row tw-items-center tw-gap-1 tw-p-0">
-          Score: {{ formatter.format(propsPostCard.post.score) }}
+          Score: <span :title="propsPostCard.post.score.toLocaleString()">{{ formatter.format(propsPostCard.post.score) }}</span>
           <v-spacer />
           <v-icon
             size="18"
