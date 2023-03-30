@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-import { ref, watch, reactive } from 'vue'
+import { watch, reactive } from 'vue'
 
 export const useSettingsStore = defineStore('settings', () => {
 
