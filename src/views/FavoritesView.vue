@@ -33,13 +33,13 @@
         v-if="posts.length > 0"
         class="tw-mt-8 tw-grid tw-grid-cols-5 tw-gap-4"
       >
-        <v-fade-transition group>
+        <v-slide-y-reverse-transition group>
           <PostCard
             v-for="post in posts"
             :key="post.id"
             :post="post"
           />
-        </v-fade-transition>
+        </v-slide-y-reverse-transition>
         <v-pagination
           v-model="pagination.currentPage"
           class="tw-col-span-5 tw-mt-8"
