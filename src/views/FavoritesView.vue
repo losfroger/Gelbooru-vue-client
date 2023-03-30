@@ -2,6 +2,7 @@
   <div class="tw-grid tw-w-full tw-max-w-7xl tw-grid-cols-1 md:tw-mx-12">
     <PostSearchBar
       class="tw-max-w-full"
+      @updated-query="searchFavorites"
     />
     <v-expand-transition>
       <div
@@ -51,14 +52,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import axios from 'axios'
 
 import PostCard from '@/components/Gelbooru/PostCard.vue'
 import PostSearchBar from '@/components/Gelbooru/PostSearchBar.vue'
 
 import { GelbooruPost } from '@/types/gelbooru'
-import { watch } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 const pagination = ref({
   currentPage: 1,
@@ -76,16 +79,24 @@ const loading = ref(false)
 
 const formatter = Intl.NumberFormat('en', {notation: 'compact'})
 
+
+const searchQuery = ref('')
+
+function searchFavorites(query: string) {
+  searchQuery.value = query
+  pagination.value.currentPage = 1
+  getPosts()
+}
+
 // Get posts at start
 getPosts()
-
 function getPosts() {
 
   loading.value = true
 
   return axios.get('/post', {params: {
     pid: pagination.value.currentPage - 1,
-    tags: 'fav:924874 sort:score'
+    tags: `fav:${authStore.user_id} ${searchQuery.value}`.trim()
   }})
   .then((result) => {
     posts.value = (result.data.post.map(
