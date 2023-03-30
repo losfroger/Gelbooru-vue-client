@@ -1,53 +1,51 @@
 <template>
-  <div class="tw-flex tw-flex-col tw-items-center">
-    <div
-      class="tw-max-w-7xl"
-    >
-      <PostSearchBar
-        class="tw-mx-auto tw-w-[80rem]"
-      />
-      <v-expand-transition>
-        <div
-          v-if="pagination.totalItems >= 0"
-          class="text-caption tw-mt-1"
-        >
-          {{ pagination.totalItems.toLocaleString() }} posts
-        </div>
-      </v-expand-transition>
-
-      <v-scale-transition>
-        <div
-          v-if="loading"
-          class="tw-fixed tw-top-16 tw-left-1/2 tw-z-50 tw-flex tw-flex-row tw-justify-center tw-pt-2"
-        >
-          <div class="tw-rounded-full tw-bg-black tw-bg-opacity-50 tw-p-2 tw-backdrop-blur-sm">
-            <v-progress-circular
-              indeterminate
-              color="primary"
-            />
-          </div>
-        </div>
-      </v-scale-transition>
-
+  <div class="tw-grid tw-w-full tw-max-w-7xl tw-grid-cols-1 md:tw-mx-12">
+    <PostSearchBar
+      class="tw-max-w-full"
+    />
+    <v-expand-transition>
       <div
-        v-if="posts.length > 0"
-        class="tw-mt-8 tw-grid tw-grid-cols-5 tw-gap-4"
+        v-if="pagination.totalItems >= 0"
+        class="text-caption tw-mt-1 tw-mr-auto"
       >
-        <v-slide-y-reverse-transition group>
-          <PostCard
-            v-for="post in posts"
-            :key="post.id"
-            :post="post"
-          />
-        </v-slide-y-reverse-transition>
-        <v-pagination
-          v-model="pagination.currentPage"
-          class="tw-col-span-5 tw-mt-8"
-          active-color="primary"
-          rounded="circle"
-          :length="pagination.pageCount"
-        />
+        {{ pagination.totalItems.toLocaleString() }} posts
       </div>
+    </v-expand-transition>
+
+    <v-scale-transition>
+      <div
+        v-if="loading"
+        class="tw-fixed tw-top-16 tw-left-1/2 tw-z-50 tw-flex tw-flex-row tw-justify-center tw-pt-2"
+      >
+        <div class="tw-rounded-full tw-bg-black tw-bg-opacity-50 tw-p-2 tw-backdrop-blur-sm">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          />
+        </div>
+      </div>
+    </v-scale-transition>
+
+    <div
+      v-if="posts.length > 0"
+      class="tw-mt-8 tw-grid tw-grid-cols-1 tw-gap-4 sm:tw-grid-cols-2 md:tw-grid-cols-4 lg:tw-grid-cols-5"
+    >
+      <v-slide-y-reverse-transition group>
+        <PostCard
+          v-for="post in posts"
+          :key="post.id"
+          :post="post"
+        />
+      </v-slide-y-reverse-transition>
+      <v-pagination
+        v-model="pagination.currentPage"
+        class="tw-col-span-full tw-mt-8 md:tw-mx-8"
+        active-color="primary"
+        rounded="circle"
+        :length="pagination.pageCount"
+        :show-first-last-page="$vuetify.display.mdAndUp"
+        :size="$vuetify.display.mdAndUp ? 'default' : 40"
+      />
     </div>
   </div>
 </template>
@@ -56,7 +54,6 @@
 import { ref } from 'vue'
 import axios from 'axios'
 
-import { useAuthStore } from '@/stores/auth'
 import PostCard from '@/components/Gelbooru/PostCard.vue'
 import PostSearchBar from '@/components/Gelbooru/PostSearchBar.vue'
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tw-flex-1">
     <div class="search-bar tw-flex tw-flex-row tw-justify-center tw-gap-2">
       <v-text-field
         class="tw-w-4/5"

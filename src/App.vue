@@ -17,7 +17,7 @@ const itemList = ref([
 ])
 
 
-axios.defaults.baseURL = 'http://127.0.0.1:5001/'
+axios.defaults.baseURL = 'http://192.168.0.142:5001/'
 
 </script>
 
@@ -47,7 +47,7 @@ axios.defaults.baseURL = 'http://127.0.0.1:5001/'
     <v-main>
       <v-container
         fluid
-        class="tw-min-h-[98vh] tw-pb-20"
+        class="tw-flex tw-min-h-[98vh] tw-flex-col tw-items-center tw-pb-20"
       >
         <RouterView />
       </v-container>

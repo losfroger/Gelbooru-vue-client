@@ -1,12 +1,11 @@
 <template>
-  <v-card class="tw-flex tw-w-full tw-flex-col">
-    <div class="tw-relative tw-aspect-square tw-w-full tw-overflow-clip tw-shadow-xl">
+  <v-card class="tw-flex tw-w-full tw-flex-row md:tw-flex-col">
+    <div class="tw-relative tw-aspect-square tw-w-full tw-max-w-[40vw] tw-overflow-clip tw-shadow-xl">
       <v-img
-        width="100%"
         aspect-ratio="1"
         cover
         :src="propsPostCard.post.preview_url"
-        class="tw-absolute tw-top-0 tw-opacity-40 tw-blur-lg"
+        class="tw-absolute tw-top-0 tw-h-full tw-w-full tw-opacity-40 tw-blur-lg"
         alt=""
       />
       <a
@@ -14,62 +13,76 @@
         target="_blank"
       >
         <v-img
-          width="100%"
           aspect-ratio="1"
           :src="propsPostCard.post.preview_url"
           :class="{
-            'tw-absolute tw-top-0 tw-shadow-sm tw-transition-all': true,
+            'tw-absolute tw-top-0 tw-h-full tw-w-full tw-shadow-sm tw-transition-all': true,
             'tw-blur-md hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
           }"
           alt=""
         />
       </a>
-      <div class="tw-absolute tw-top-0 tw-flex tw-flex-row tw-p-1 tw-drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+      <div class="tw-absolute tw-top-0 tw-flex tw-flex-row tw-flex-wrap tw-p-1 tw-drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
         <v-icon
           v-if="propsPostCard.post.is_video"
+          :size="$vuetify.display.mdAndUp ? 'default' : 'small'"
           color="accent"
           title="Video"
           icon="mdi-play-outline"
         />
         <v-icon
+          v-if="propsPostCard.post.is_sound"
+          :size="$vuetify.display.mdAndUp ? 'default' : 'small'"
+          color="accent"
+          title="Sound"
+          icon="mdi-volume-high"
+        />
+        <v-icon
           v-if="propsPostCard.post.is_irl"
+          :size="$vuetify.display.mdAndUp ? 'default' : 'small'"
           color="accent"
           title="Photo medium"
           icon="mdi-image-outline"
         />
         <v-icon
           v-if="propsPostCard.post.is_3d"
+          :size="$vuetify.display.mdAndUp ? 'default' : 'small'"
           color="accent"
           title="3D"
           icon="mdi-cube-outline"
         />
       </div>
     </div>
-    <div class="tw-px-4 tw-pb-4">
-      <div class="tw-pt-1">
-        <v-card-title class="tw-flex tw-flex-row tw-items-center tw-gap-1 tw-p-0">
-          Score: <span :title="propsPostCard.post.score.toLocaleString()">{{ formatter.format(propsPostCard.post.score) }}</span>
-          <v-spacer />
-          <v-icon
-            size="18"
-            :color="propsPostCard.post.has_note_bool ? 'accent' : 'grey-darken-1'"
-            :title="propsPostCard.post.has_note_bool ? 'Has notes' : ''"
-            icon="mdi-note-outline"
-          />
-          <v-icon
-            size="18"
-            :color="propsPostCard.post.has_comments_bool ? 'accent' : 'grey-darken-1'"
-            :title="propsPostCard.post.has_comments_bool ? 'Has comments' : ''"
-            icon="mdi-comment-outline"
-          />
+    <div class="tw-w-full tw-px-4 tw-pb-4">
+      <div class="tw-flex tw-flex-col tw-gap-1 tw-pt-1 md:tw-gap-0">
+        <div class=" tw-flex tw-flex-col tw-flex-wrap tw-justify-center tw-gap-1 md:tw-flex-row md:tw-items-center md:tw-justify-start">
+          <v-card-title class="= tw-p-0">
+            Score: <span :title="propsPostCard.post.score.toLocaleString()">{{ formatter.format(propsPostCard.post.score) }}</span>
+            <v-spacer class="tw-hidden" />
+          </v-card-title>
+          <v-spacer class="tw-hidden md:tw-block" />
+          <div class="tw-flex tw-flex-row tw-gap-1">
+            <v-icon
+              size="18"
+              :color="propsPostCard.post.has_note_bool ? 'accent' : 'grey-darken-1'"
+              :title="propsPostCard.post.has_note_bool ? 'Has notes' : ''"
+              icon="mdi-note-outline"
+            />
+            <v-icon
+              size="18"
+              :color="propsPostCard.post.has_comments_bool ? 'accent' : 'grey-darken-1'"
+              :title="propsPostCard.post.has_comments_bool ? 'Has comments' : ''"
+              icon="mdi-comment-outline"
+            />
 
-          <v-icon
-            size="18"
-            :color="propsPostCard.post.has_children_bool ? 'accent' : 'grey-darken-1'"
-            :title="propsPostCard.post.has_children_bool ? 'has_children' : ''"
-            icon="mdi-file-tree"
-          />
-        </v-card-title>
+            <v-icon
+              size="18"
+              :color="propsPostCard.post.has_children_bool ? 'accent' : 'grey-darken-1'"
+              :title="propsPostCard.post.has_children_bool ? 'has_children' : ''"
+              icon="mdi-file-tree"
+            />
+          </div>
+        </div>
         <h2 class="text-caption">
           <UserLink :user="{creator_id: propsPostCard.post.creator_id, owner: propsPostCard.post.owner}" />
         </h2>
@@ -160,6 +173,7 @@ const propsPostCard = defineProps({
       is_3d: false,
       is_video: false,
       is_irl: false,
+      is_sound: false,
     })
   }
 })
