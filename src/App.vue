@@ -5,12 +5,15 @@ import axios from 'axios'
 import SiteAppBar from '@/components/SiteAppBar.vue'
 import { useAuthStore } from './stores/auth'
 import { useSettingsStore } from './stores/settings'
+import { useAppStore } from './stores/app'
 
 const authStore = useAuthStore()
 authStore.check_credentials()
 
 const settingStore = useSettingsStore()
 settingStore.loadSettings()
+
+const appStore = useAppStore()
 
 const itemList = ref([
   {text: 'Favorites', icon: 'mdi-heart', to: '/favorites'}
@@ -25,8 +28,9 @@ axios.defaults.baseURL = 'http://192.168.0.142:5001/'
   <v-app>
     <SiteAppBar />
     <v-navigation-drawer
+      v-model="appStore.toggleMenu"
       expand-on-hover
-      rail
+      :rail="$vuetify.display.mdAndUp"
     >
       <v-list nav>
         <v-list-item

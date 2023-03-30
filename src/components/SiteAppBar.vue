@@ -1,6 +1,11 @@
 <template>
   <v-app-bar title="Gelbooru Vue">
     <template #prepend>
+      <v-btn
+        v-if="$vuetify.display.smAndDown"
+        icon="mdi-menu"
+        @click="appStore.toggleMenu = !appStore.toggleMenu"
+      />
       <v-img
         src="/gelbooru-logo.svg"
         contain
@@ -50,11 +55,13 @@
 </template>
 
 <script setup lang="ts">
+import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { useSettingsStore } from '@/stores/settings'
 
 const authStore = useAuthStore()
 const settingStore = useSettingsStore()
+const appStore = useAppStore()
 
 </script>
 
