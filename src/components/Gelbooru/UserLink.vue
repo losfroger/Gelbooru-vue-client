@@ -2,6 +2,7 @@
   <a
     class="tw-flex tw-flex-row tw-items-center tw-text-white tw-no-underline tw-transition-colors visited:tw-text-white hover:tw-text-accent"
     :href="`https://gelbooru.com/index.php?page=account&s=profile&id=${propsUser.user.creator_id}`"
+    target="_blank"
   >
     <v-icon
       icon="mdi-account"

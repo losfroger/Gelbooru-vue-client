@@ -9,7 +9,10 @@
         class="tw-absolute tw-top-0 tw-opacity-40 tw-blur-lg"
         alt=""
       />
-      <a :href="`https://gelbooru.com/index.php?page=post&s=view&id=${propsPostCard.post.id}`">
+      <a
+        :href="`https://gelbooru.com/index.php?page=post&s=view&id=${propsPostCard.post.id}`"
+        target="_blank"
+      >
         <v-img
           width="100%"
           aspect-ratio="1"
