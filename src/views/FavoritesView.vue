@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 import PostCard from '@/components/Gelbooru/PostCard.vue'
@@ -62,14 +63,28 @@ import { GelbooruPost } from '@/types/gelbooru'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
+const router = useRouter()
+
+const propsFavorite = defineProps({
+  page: {
+    type: String,
+    default: '1',
+  }
+})
+document.title = 'Favorites - Gelbooru Vue'
 
 const pagination = ref({
-  currentPage: 1,
+  currentPage:  parseInt(propsFavorite.page),
   pageCount: 0,
   totalItems: -1,
 })
 
+watch(() => propsFavorite.page, (newValue) => {
+  pagination.value.currentPage = parseInt(newValue)
+})
+
 watch(() => pagination.value.currentPage, (newValue) => {
+  router.push(`/favorites?page=${newValue}`)
   getPosts()
   .finally(() => window.scrollTo(0, 0))
 })
