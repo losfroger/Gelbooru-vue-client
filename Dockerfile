@@ -1,4 +1,4 @@
-FROM node:16 as build
+FROM node:16-alpine as build
 
 WORKDIR /usr/src
 
@@ -11,7 +11,7 @@ COPY [".", "/usr/src/"]
 RUN yarn run build
 
 # FINAL IMAGE
-FROM nginx:stable
+FROM nginx:stable-alpine
 
 COPY --from=build ["/usr/src/dist", "/usr/share/nginx/html"]
 COPY ["./nginx.conf", "/etc/nginx/nginx.conf"]
