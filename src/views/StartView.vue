@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-flex tw-flex-col tw-items-center">
+  <div class="tw-flex tw-flex-1 tw-flex-col tw-items-center tw-justify-center">
     <v-fade-transition
       group
       leave-absolute
