@@ -10,6 +10,7 @@
     <template #append>
       <v-menu
         location="bottom"
+        :close-on-content-click="false"
       >
         <template #activator="{ props }">
           <v-fade-transition>
@@ -23,7 +24,7 @@
         </template>
         <v-card
           min-width="200px"
-          class="tw-p-2"
+          class="tw-m-2"
         >
           <v-list>
             <v-list-item>
@@ -31,6 +32,13 @@
               <v-list-item-subtitle>{{ authStore.user_id }}</v-list-item-subtitle>
             </v-list-item>
             <v-divider class="tw-my-2" />
+            <v-list-item>
+              <v-switch
+                v-model="settingStore.settings.hideNsfwImages"
+                label="Hide NSFW images"
+                color="primary"
+              />
+            </v-list-item>
             <v-list-item @click="authStore.logout">
               <v-list-item-title>Logout</v-list-item-title>
             </v-list-item>
@@ -43,8 +51,10 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
+import { useSettingsStore } from '@/stores/settings'
 
 const authStore = useAuthStore()
+const settingStore = useSettingsStore()
 
 </script>
 

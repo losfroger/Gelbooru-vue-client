@@ -4,9 +4,13 @@ import axios from 'axios'
 
 import SiteAppBar from '@/components/SiteAppBar.vue'
 import { useAuthStore } from './stores/auth'
+import { useSettingsStore } from './stores/settings'
 
 const authStore = useAuthStore()
 authStore.check_credentials()
+
+const settingStore = useSettingsStore()
+settingStore.loadSettings()
 
 const itemList = ref([
   {text: 'Favorites', icon: 'mdi-heart', to: '/favorites'}

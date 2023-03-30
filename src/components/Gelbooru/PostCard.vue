@@ -14,7 +14,10 @@
           width="100%"
           aspect-ratio="1"
           :src="propsPostCard.post.preview_url"
-          class="tw-absolute tw-top-0 tw-shadow-sm"
+          :class="{
+            'tw-absolute tw-top-0 tw-shadow-sm tw-transition-all': true,
+            'tw-blur-md hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
+          }"
           alt=""
         />
       </a>
@@ -83,10 +86,14 @@ import { GelbooruPost } from '@/types/gelbooru'
 import TagChip from './TagChip.vue'
 import RatingChip from './RatingChip.vue'
 import UserLink from './UserLink.vue'
+import { useSettingsStore } from '@/stores/settings'
+import { computed } from 'vue'
 
 
 const expand = ref(false)
 const formatter = Intl.NumberFormat('en', {notation: 'compact'})
+
+const settingStore = useSettingsStore()
 
 const propsPostCard = defineProps({
   post: {
@@ -131,6 +138,8 @@ const propsPostCard = defineProps({
   }
 })
 
+const sfwRatings = ['General', 'general', 'safe', 'Safe']
+const isNsfw = computed(() => !sfwRatings.includes(propsPostCard.post.rating))
 
 </script>
 
