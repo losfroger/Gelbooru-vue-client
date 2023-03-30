@@ -83,7 +83,7 @@
             />
           </div>
         </div>
-        <h2 class="text-caption">
+        <h2 class="text-caption tw-mr-auto">
           <UserLink :user="{creator_id: propsPostCard.post.creator_id, owner: propsPostCard.post.owner}" />
         </h2>
       </div>
