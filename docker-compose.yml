@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: gelbooru-frontend
+    build:
+      context: './gelbooru-app-frontend'
+      dockerfile: 'Dockerfile'
+    environment:
+      BACK_URL: 'backend'
+      PRODUCTION: 'true'
+    ports:
+      - 80:80
+  backend:
+    image: gelbooru-backend
+    build:
+      context: './gelbooru-app-backend'
+      dockerfile: 'Dockerfile'
+    environment:
+      NODE_ENV: 'production'
+    ports:
+      - 5000:5000
