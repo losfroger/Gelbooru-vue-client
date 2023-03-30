@@ -24,6 +24,8 @@ const color = computed(() => {
   switch (propsRatingChip.rating) {
     case 'safe':
     case 'Safe':
+    case 'general':
+    case 'General':
       return 'green'
 
     case 'questionable':
