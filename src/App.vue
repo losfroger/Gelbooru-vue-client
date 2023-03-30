@@ -20,7 +20,9 @@ const itemList = ref([
 ])
 
 
-axios.defaults.baseURL = 'http://192.168.0.124:5000/'
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:5000/'
+
+console.log(import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:5000/')
 
 </script>
 
