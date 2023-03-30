@@ -134,6 +134,8 @@ const propsPostCard = defineProps({
       post_locked: 0,
       has_children: '',
       has_children_bool: false,
+      is_3d: false,
+      is_video: false,
     })
   }
 })
