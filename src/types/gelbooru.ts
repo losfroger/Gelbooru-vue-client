@@ -1,7 +1,7 @@
 export interface GelbooruPost {
   id: number,
   created_at: string,
-  created_at_date: Date,
+  created_at_date?: Date,
   score: number,
   width: number,
   height: number,
@@ -34,6 +34,8 @@ export interface GelbooruPost {
   post_locked: number,
   has_children: string,
   has_children_bool: boolean,
+  is_video: boolean,
+  is_3d: boolean,
 }
 
 export interface GelbooruTag {
