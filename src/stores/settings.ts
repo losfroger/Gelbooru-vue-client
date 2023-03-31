@@ -1,20 +1,27 @@
 import { defineStore } from 'pinia'
+import { watch, reactive, computed } from 'vue'
 
-import { watch, reactive } from 'vue'
+interface settingsInt {
+  hideNsfwImages: boolean,
+  filteredTags: String[],
+}
 
 export const useSettingsStore = defineStore('settings', () => {
 
-  const settings = reactive({
-    hideNsfwImages: false
+  const settings = reactive<settingsInt>({
+    hideNsfwImages: false,
+    filteredTags: ['loli', 'age_difference', 'bestiality']
   })
 
+  const filteredTagsWithMinus = computed(() => settings.filteredTags.map((tag) => `-${tag}`))
+
+  // When settins change, save them to localstorage
   watch(settings, onSettingsChange)
 
   function onSettingsChange(newValue: typeof settings) {
     console.log('Saving settings!', JSON.stringify({ ...newValue }))
     localStorage.setItem('settings', JSON.stringify({ ...newValue }))
   }
-
 
   function loadSettings() {
     const aux = localStorage.getItem('settings')
@@ -35,6 +42,8 @@ export const useSettingsStore = defineStore('settings', () => {
 
   return {
     settings,
+    filteredTagsWithMinus,
+
     loadSettings,
   }
 })

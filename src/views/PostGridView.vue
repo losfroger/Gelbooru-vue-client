@@ -71,6 +71,10 @@ const router = useRouter()
 const display = useDisplay()
 
 const propsFavorite = defineProps({
+  defaultSearch: {
+    type: String,
+    default: '',
+  },
   page: {
     type: String,
     default: '1',
@@ -88,9 +92,6 @@ const propsFavorite = defineProps({
     default: 'true',
   },
 })
-
-document.title = 'Favorites - Gelbooru Vue'
-console.log('Router', router.currentRoute.value.query, propsFavorite.page)
 
 /*
   PAGINATION
@@ -127,7 +128,8 @@ function calculateUrlParams() {
   auxStringArray.push(`page=${pagination.value.currentPage}`)
 
   console.log('URL params!', auxStringArray)
-  router.push(`/favorites?${auxStringArray.join('&')}`)
+
+  router.push(`/${router.currentRoute.value.path.replaceAll('/', '')}?${auxStringArray.join('&')}`)
 }
 
 const formatter = Intl.NumberFormat('en', {notation: 'compact'})
@@ -164,7 +166,7 @@ function getPosts() {
   return axios.get('/post', {params: {
     limit: display.mdAndUp.value ? 50 : 25,
     pid: pagination.value.currentPage - 1,
-    tags: `fav:${authStore.user_id} ${searchQuery.value}`.trim()
+    tags: `${propsFavorite.defaultSearch} ${searchQuery.value}`.trim()
   }})
   .then((result) => {
     posts.value = (result.data.post.map(

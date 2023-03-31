@@ -7,6 +7,10 @@ import { useAuthStore } from './stores/auth'
 import { useSettingsStore } from './stores/settings'
 import { useAppStore } from './stores/app'
 
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
 const authStore = useAuthStore()
 authStore.check_credentials()
 
@@ -16,6 +20,7 @@ settingStore.loadSettings()
 const appStore = useAppStore()
 
 const itemList = ref([
+  {text: 'Search', icon: 'mdi-magnify', to: '/search'},
   {text: 'Favorites', icon: 'mdi-heart', to: '/favorites'}
 ])
 
@@ -55,7 +60,7 @@ console.log(import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:5000/')
         fluid
         class="tw-flex tw-min-h-[98vh] tw-flex-col tw-items-center tw-pb-20"
       >
-        <RouterView />
+        <RouterView :key="route.path" />
       </v-container>
     </v-main>
   </v-app>
