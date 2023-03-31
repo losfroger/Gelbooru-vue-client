@@ -10,7 +10,7 @@ export const useSettingsStore = defineStore('settings', () => {
 
   const settings = reactive<settingsInt>({
     hideNsfwImages: false,
-    filteredTags: ['loli', 'age_difference', 'bestiality']
+    filteredTags: ['loli', 'age_difference', 'bestiality', 'futanari']
   })
 
   const filteredTagsWithMinus = computed(() => settings.filteredTags.map((tag) => `-${tag}`))
