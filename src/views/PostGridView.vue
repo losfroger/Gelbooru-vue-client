@@ -110,7 +110,6 @@ watch(() => pagination.value.currentPage, (newValue) => {
   calculateUrlParams()
 
   getPosts()
-  .finally(() => window.scrollTo(0, 0))
 })
 
 function calculateUrlParams() {
@@ -161,13 +160,22 @@ const loadingPosts = ref(false)
 const abortControllerPosts = ref<AbortController | undefined>(undefined)
 
 function getPosts() {
+  if (abortControllerPosts.value) {
+    abortControllerPosts.value.abort()
+  }
+
+  abortControllerPosts.value = new AbortController()
+
   loadingPosts.value = true
 
-  return axios.get('/post', {params: {
-    limit: display.mdAndUp.value ? 50 : 25,
-    pid: pagination.value.currentPage - 1,
-    tags: `${propsFavorite.defaultSearch} ${searchQuery.value}`.trim()
-  }})
+  return axios.get('/post', {
+    signal: abortControllerPosts.value.signal,
+    params: {
+      limit: display.mdAndUp.value ? 50 : 25,
+      pid: pagination.value.currentPage - 1,
+      tags: `${propsFavorite.defaultSearch} ${searchQuery.value}`.trim()
+    }
+  })
   .then((result) => {
     posts.value = (result.data.post.map(
       (post: any) => ({...post, created_at_date: new Date(post.created_at_date)})
@@ -180,7 +188,9 @@ function getPosts() {
     console.log(err)
   })
   .finally(() => {
+    abortControllerPosts.value = undefined
     loadingPosts.value = false
+    window.scrollTo(0, 0)
   })
 }
 
