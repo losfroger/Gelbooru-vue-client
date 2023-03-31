@@ -8,9 +8,8 @@
         class="tw-absolute tw-top-0 tw-h-full tw-w-full tw-opacity-40 tw-blur-lg"
         alt=""
       />
-      <a
-        :href="`https://gelbooru.com/index.php?page=post&s=view&id=${propsPostCard.post.id}`"
-        target="_blank"
+      <router-link
+        :to="`/post/${propsPostCard.post.id}`"
       >
         <v-img
           aspect-ratio="1"
@@ -21,8 +20,15 @@
           }"
           alt=""
         />
-      </a>
+      </router-link>
       <div class="tw-absolute tw-top-0 tw-flex tw-flex-row tw-flex-wrap tw-p-1 tw-drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+        <v-icon
+          v-if="isGifFile"
+          :size="$vuetify.display.mdAndUp ? 'default' : 'small'"
+          color="accent"
+          title="Video"
+          icon="mdi-file-gif-box"
+        />
         <v-icon
           v-if="propsPostCard.post.is_video"
           :size="$vuetify.display.mdAndUp ? 'default' : 'small'"
@@ -180,6 +186,14 @@ const propsPostCard = defineProps({
 
 const sfwRatings = ['General', 'general', 'safe', 'Safe']
 const isNsfw = computed(() => !sfwRatings.includes(propsPostCard.post.rating))
+
+const isVideoFile = computed(() => {
+  return /.(mp4|mov|avi|mkv|flv)$/.test(propsPostCard.post.file_url)
+})
+
+const isGifFile = computed(() => {
+  return /.(gif)$/.test(propsPostCard.post.file_url)
+})
 
 </script>
 
