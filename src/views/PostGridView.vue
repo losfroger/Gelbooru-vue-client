@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-grid tw-w-full tw-max-w-7xl tw-grid-cols-1 md:tw-mx-12 2xl:tw-max-w-[150rem]">
+  <div class="view-container tw-grid  tw-grid-cols-1">
     <PostSearchBar
       v-model:sort-by="searchBar.sortBy"
       v-model:search="searchBar.search"
