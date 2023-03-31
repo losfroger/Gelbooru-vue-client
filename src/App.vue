@@ -37,7 +37,7 @@ console.log(import.meta.env.VITE_BACKEND_URL ?? 'no env var')
     <v-navigation-drawer
       v-model="appStore.toggleMenu"
       expand-on-hover
-      :rail="$vuetify.display.mdAndUp"
+      :rail="$vuetify.display.lgAndUp"
     >
       <v-list nav>
         <v-list-item
