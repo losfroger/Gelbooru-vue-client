@@ -1,16 +1,18 @@
 <template>
-  <v-app-bar title="Gelbooru Vue">
+  <v-app-bar :title="titlePage">
     <template #prepend>
       <v-btn
         v-if="$vuetify.display.mdAndDown"
         icon="mdi-menu"
         @click="appStore.toggleMenu = !appStore.toggleMenu"
       />
-      <v-img
-        src="/gelbooru-logo.svg"
-        contain
-        width="40px"
-      />
+      <router-link to="/">
+        <v-img
+          src="/gelbooru-logo.svg"
+          contain
+          width="40px"
+        />
+      </router-link>
     </template>
     <template #append>
       <v-menu
@@ -55,13 +57,21 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { useSettingsStore } from '@/stores/settings'
 
+import { useRoute } from 'vue-router'
+
 const authStore = useAuthStore()
 const settingStore = useSettingsStore()
 const appStore = useAppStore()
+
+const route = useRoute()
+
+const titlePage = computed(() => route.meta.title ? `${route.meta.title} - Gelbooru Vue` : 'Gelbooru Vue')
 
 </script>
 
