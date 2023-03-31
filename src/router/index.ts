@@ -12,7 +12,12 @@ const router = createRouter({
       path: '/favorites',
       name: 'favorites',
       component: () => import('@/views/FavoritesView.vue'),
-      props: route => ({ page: route.query.page })
+      props: route => ({
+        search: route.query.search,
+        sort: route.query.sort,
+        desc: route.query.desc,
+        page: route.query.page
+      })
     }
   ]
 })

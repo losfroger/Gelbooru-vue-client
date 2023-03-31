@@ -21,7 +21,8 @@
         multiple
         clearable
         clear-icon="mdi-close-circle-outline"
-        @keydown.enter.prevent="calculateQuery"
+        @keydown.enter.prevent="onSearchAutocompleteUpdate"
+        @blur="onSearchAutocompleteUpdate"
       >
         <template #chip="{ props, item }">
           <v-chip
@@ -42,20 +43,20 @@
       </v-autocomplete>
       <div class="tw-flex tw-flex-row tw-items-center tw-gap-2 md:tw-w-3/12">
         <v-select
-          v-model="select.value"
-          :items="select.items"
+          v-model="sortBySelect.value"
+          :items="sortBySelect.items"
           label="Sort by"
           color="primary"
           hide-details
           clearable
           clear-icon="mdi-close-circle-outline"
-          @update:modelValue="calculateQuery"
+          @update:model-value="onSortByUpdate"
         />
         <v-btn
           variant="text"
-          :class="{'tw-rotate-180': !select.desc}"
+          :class="{'tw-rotate-180': !sortBySelect.desc}"
           icon="mdi-arrow-down"
-          @click="select.desc = !select.desc; calculateQuery()"
+          @click="onSortByDescUpdate"
         />
       </div>
     </div>
@@ -63,26 +64,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive } from 'vue'
+import { ref, watch, PropType } from 'vue'
 
 import axios from 'axios'
 import { GelbooruTag } from '@/types/gelbooru'
+import { onMounted } from 'vue'
 
 const emit = defineEmits<{
-  (e: 'updatedQuery', query: string): void
+  (e: 'updatedQuery', query: string): void,
+  (e: 'update:sortBy', newSortBy: string): void,
+  (e: 'update:search', newSearch: string[]): void,
+  (e: 'update:desc', newDesc: boolean): void,
 }>()
 
 const propsSearchBar = defineProps({
   loading: {
     type: Boolean,
     default: false,
-  }
+  },
+  search: {
+    type: Array as PropType<string[]>,
+    default: () => []
+  },
+  sortBy: {
+    type: String,
+    default: undefined,
+  },
+  desc: {
+    type: Boolean,
+    default: true,
+  },
+})
+
+onMounted(() => {
+  sortBySelect.value.value = propsSearchBar.sortBy
+  sortBySelect.value.desc = propsSearchBar.desc
+  searchAutocomplete.value.value = propsSearchBar.search
+  calculateQuery()
 })
 
 function calculateQuery(): string {
   let aux = searchAutocomplete.value.value.join(' ')
-  if (select.value.value) {
-    aux += ` sort:${select.value.value}${select.value.desc ? ':desc' : ':asc'}`
+  if (sortBySelect.value.value) {
+    aux += ` sort:${sortBySelect.value.value}${sortBySelect.value.desc ? ':desc' : ':asc'}`
   }
 
   aux = aux.trim()
@@ -92,18 +116,20 @@ function calculateQuery(): string {
   return aux
 }
 
-interface searchAutocompleteInt {
-  value: string[],
-  search: string,
-  items: GelbooruTag[],
-  loading: boolean,
-  aborter?: AbortController,
-}
 const formatter = Intl.NumberFormat('en', {notation: 'compact'})
 
-const select = ref({
+/*
+SORT BY
+*/
+interface sortBySelectInt {
+  desc: boolean,
+  value?: string,
+  items: {title: string, value: string}[]
+}
+
+const sortBySelect = ref<sortBySelectInt>({
   desc: true,
-  value: '',
+  value: undefined,
   items: [
     {title: 'Id', value: 'id'},
     {title: 'Score', value: 'score'},
@@ -117,7 +143,31 @@ const select = ref({
   ]
 })
 
-// Autocomplete
+function onSortByUpdate(e: any) {
+  console.log('sort by update!', e)
+
+  emit('update:sortBy', e)
+  calculateQuery()
+}
+
+function onSortByDescUpdate() {
+  sortBySelect.value.desc = !sortBySelect.value.desc
+  emit('update:desc', sortBySelect.value.desc)
+  calculateQuery()
+}
+
+
+/*
+AUTOCOMPLETE
+*/
+interface searchAutocompleteInt {
+  value: string[],
+  search: string,
+  items: GelbooruTag[],
+  loading: boolean,
+  aborter?: AbortController,
+}
+
 const searchAutocomplete = ref<searchAutocompleteInt>({
   value: [],
   items: [],
@@ -128,6 +178,16 @@ const searchAutocomplete = ref<searchAutocompleteInt>({
 
 function customFilter(value: string, query: string, item?: any) {
   return true
+}
+
+function onSearchAutocompleteUpdate() {
+  emit('update:search', searchAutocomplete.value.value)
+  calculateQuery()
+
+  if (document.activeElement) {
+    (document.activeElement as HTMLElement).blur()
+  }
+
 }
 
 watch(() => searchAutocomplete.value.search, (newVal) => {
@@ -147,7 +207,7 @@ watch(() => searchAutocomplete.value.search, (newVal) => {
   axios.get('tag', {
     signal: searchAutocomplete.value.aborter.signal,
     params: {
-      name_pattern: `%${searchAutocomplete.value.search}%`
+      name_pattern: `%${searchAutocomplete.value.search.replaceAll(' ', '_')}%`
     }
   })
   .then((result) => {

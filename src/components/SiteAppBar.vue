@@ -2,7 +2,7 @@
   <v-app-bar title="Gelbooru Vue">
     <template #prepend>
       <v-btn
-        v-if="$vuetify.display.smAndDown"
+        v-if="$vuetify.display.mdAndDown"
         icon="mdi-menu"
         @click="appStore.toggleMenu = !appStore.toggleMenu"
       />

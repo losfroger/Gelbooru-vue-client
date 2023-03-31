@@ -1,6 +1,9 @@
 <template>
-  <div class="tw-grid tw-w-full tw-max-w-7xl tw-grid-cols-1 md:tw-mx-12">
+  <div class="tw-grid tw-w-full tw-max-w-7xl tw-grid-cols-1 md:tw-mx-12 2xl:tw-max-w-[150rem]">
     <PostSearchBar
+      v-model:sort-by="searchBar.sortBy"
+      v-model:search="searchBar.search"
+      v-model:desc="searchBar.desc"
       class="tw-max-w-full"
       @updated-query="searchFavorites"
     />
@@ -15,7 +18,7 @@
 
     <v-scale-transition>
       <div
-        v-if="loading"
+        v-if="loadingPosts"
         class="tw-fixed tw-top-16 tw-left-1/2 tw-z-50 tw-flex tw-flex-row tw-justify-center tw-pt-2"
       >
         <div class="tw-rounded-full tw-bg-black tw-bg-opacity-50 tw-p-2 tw-backdrop-blur-sm">
@@ -29,7 +32,7 @@
 
     <div
       v-if="posts.length > 0"
-      class="tw-mt-8 tw-grid tw-grid-cols-1 tw-gap-4 sm:tw-grid-cols-2 md:tw-grid-cols-4 lg:tw-grid-cols-5"
+      class="tw-mt-8 tw-grid tw-grid-cols-1 tw-gap-4 sm:tw-grid-cols-2 md:tw-grid-cols-4 lg:tw-grid-cols-5 2xl:tw-grid-cols-10"
     >
       <v-slide-y-reverse-transition group>
         <PostCard
@@ -61,20 +64,39 @@ import PostSearchBar from '@/components/Gelbooru/PostSearchBar.vue'
 
 import { GelbooruPost } from '@/types/gelbooru'
 import { useAuthStore } from '@/stores/auth'
+import { useDisplay } from 'vuetify/lib/framework.mjs'
 
 const authStore = useAuthStore()
 const router = useRouter()
+const display = useDisplay()
 
 const propsFavorite = defineProps({
   page: {
     type: String,
     default: '1',
-  }
+  },
+  search: {
+    type: String,
+    default: '',
+  },
+  sort: {
+    type: String,
+    default: 'score',
+  },
+  desc: {
+    type: String,
+    default: 'true',
+  },
 })
-document.title = 'Favorites - Gelbooru Vue'
 
+document.title = 'Favorites - Gelbooru Vue'
+console.log('Router', router.currentRoute.value.query, propsFavorite.page)
+
+/*
+  PAGINATION
+*/
 const pagination = ref({
-  currentPage:  parseInt(propsFavorite.page),
+  currentPage: parseInt(propsFavorite.page),
   pageCount: 0,
   totalItems: -1,
 })
@@ -84,32 +106,63 @@ watch(() => propsFavorite.page, (newValue) => {
 })
 
 watch(() => pagination.value.currentPage, (newValue) => {
-  router.push(`/favorites?page=${newValue}`)
+  calculateUrlParams()
+
   getPosts()
   .finally(() => window.scrollTo(0, 0))
 })
 
-const posts = ref<GelbooruPost[]>([])
-const loading = ref(false)
+function calculateUrlParams() {
+  let auxStringArray: String[] = []
+  if (searchBar.value.search.length > 0) {
+    const auxSearch = searchBar.value.search.join(',')
+    auxStringArray.push(`search=${auxSearch}`)
+  }
+  if (searchBar.value.sortBy) {
+    auxStringArray.push(`sort=${searchBar.value.sortBy}`)
+  }
+  if (searchBar.value.desc != null || searchBar.value.desc != undefined) {
+    auxStringArray.push(`desc=${searchBar.value.desc}`)
+  }
+  auxStringArray.push(`page=${pagination.value.currentPage}`)
+
+  console.log('URL params!', auxStringArray)
+  router.push(`/favorites?${auxStringArray.join('&')}`)
+}
 
 const formatter = Intl.NumberFormat('en', {notation: 'compact'})
 
-
+/*
+SEARCH BAR
+*/
+const searchBar = ref({
+  search: propsFavorite.search ? propsFavorite.search.split(',') : [],
+  sortBy: propsFavorite.sort,
+  desc: propsFavorite.desc === 'true',
+})
 const searchQuery = ref('')
 
 function searchFavorites(query: string) {
+  // Check if it's empty, if it's empty, don't reset the page because it was a direct link with the page
+  if (searchQuery.value) {
+    pagination.value.currentPage = 1
+  }
   searchQuery.value = query
-  pagination.value.currentPage = 1
+
+  calculateUrlParams()
   getPosts()
 }
 
 // Get posts at start
-getPosts()
-function getPosts() {
+const posts = ref<GelbooruPost[]>([])
+const loadingPosts = ref(false)
+const abortControllerPosts = ref<AbortController | undefined>(undefined)
 
-  loading.value = true
+function getPosts() {
+  loadingPosts.value = true
 
   return axios.get('/post', {params: {
+    limit: display.mdAndUp.value ? 50 : 25,
     pid: pagination.value.currentPage - 1,
     tags: `fav:${authStore.user_id} ${searchQuery.value}`.trim()
   }})
@@ -125,7 +178,7 @@ function getPosts() {
     console.log(err)
   })
   .finally(() => {
-    loading.value = false
+    loadingPosts.value = false
   })
 }
 
