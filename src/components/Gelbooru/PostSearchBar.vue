@@ -21,7 +21,7 @@
         multiple
         clearable
         clear-icon="mdi-close-circle-outline"
-        @keydown.enter.prevent="onSearchAutocompleteUpdate"
+        @keydown.enter.prevent="onSearchAutocompleteKeyEnter"
         @blur="onSearchAutocompleteUpdate"
       >
         <template #chip="{ props, item }">
@@ -180,14 +180,15 @@ function customFilter(value: string, query: string, item?: any) {
   return true
 }
 
-function onSearchAutocompleteUpdate() {
-  emit('update:search', searchAutocomplete.value.value)
-  calculateQuery()
-
+function onSearchAutocompleteKeyEnter() {
   if (document.activeElement) {
     (document.activeElement as HTMLElement).blur()
   }
+}
 
+function onSearchAutocompleteUpdate() {
+  emit('update:search', searchAutocomplete.value.value)
+  calculateQuery()
 }
 
 watch(() => searchAutocomplete.value.search, (newVal) => {
