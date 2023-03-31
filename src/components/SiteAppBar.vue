@@ -10,7 +10,7 @@
         <v-img
           src="/gelbooru-logo.svg"
           contain
-          width="40px"
+          :width="$vuetify.display.mdAndUp ? '40px' : '25px'"
         />
       </router-link>
     </template>
@@ -71,7 +71,7 @@ const appStore = useAppStore()
 
 const route = useRoute()
 
-const titlePage = computed(() => route.meta.title ? `${route.meta.title} - Gelbooru Vue` : 'Gelbooru Vue')
+const titlePage = computed(() => route.meta.title ? `${route.meta.title}` : 'Gelbooru')
 
 </script>
 
