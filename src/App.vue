@@ -20,8 +20,8 @@ settingStore.loadSettings()
 const appStore = useAppStore()
 
 const itemList = ref([
-  {text: 'Search', icon: 'mdi-magnify', to: '/search'},
-  {text: 'Favorites', icon: 'mdi-heart', to: '/favorites'}
+  {text: 'Search', icon: 'mdi-magnify', to: '/search?sort=score&desc=true&page=1'},
+  {text: 'Favorites', icon: 'mdi-heart', to: '/favorites?sort=score&desc=true&page=1'}
 ])
 
 
