@@ -48,7 +48,10 @@ const router = createRouter({
 
 router.afterEach((to, from) => {
   document.title = to.meta.title ? `${to.meta.title} - Gelbooru Vue` : 'Gelbooru Vue'
-  window.scrollTo(0, 0)
+
+  if (to.path != from.path) {
+    window.scrollTo(0, 0)
+  }
 })
 
 export default router
