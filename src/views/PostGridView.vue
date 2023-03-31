@@ -181,7 +181,8 @@ function getPosts() {
       (post: any) => ({...post, created_at_date: new Date(post.created_at_date)})
     )) as GelbooruPost[]
 
-    pagination.value.pageCount = Math.ceil(result.data['@attributes']?.count / result.data['@attributes']?.limit)
+    const auxPageCount = Math.ceil(result.data['@attributes']?.count / result.data['@attributes']?.limit)
+    pagination.value.pageCount = Math.min(auxPageCount, 400)
     pagination.value.totalItems = result.data['@attributes']?.count
   })
   .catch((err) => {
