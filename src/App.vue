@@ -27,7 +27,7 @@ const itemList = ref([
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:5000/'
 
-console.log(import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:5000/')
+console.log(import.meta.env.VITE_BACKEND_URL ?? 'no env var')
 
 </script>
 
