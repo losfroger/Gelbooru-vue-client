@@ -42,6 +42,13 @@ const router = createRouter({
           page: route.query.page
         }
       })
+    },
+    {
+      path: '/post/:id',
+      name: 'post',
+      component: () => import('@/views/PostDetailView.vue'),
+      meta: { title: 'Post' },
+      props: true,
     }
   ]
 })
