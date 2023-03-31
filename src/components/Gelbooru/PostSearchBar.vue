@@ -217,6 +217,9 @@ watch(() => searchAutocomplete.value.search, (newVal) => {
   })
   .catch((err) => {
   })
+  .finally(() => {
+    searchAutocomplete.value.aborter = undefined
+  })
 })
 
 
