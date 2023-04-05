@@ -19,6 +19,20 @@
         <div class="post-sidebar tw-flex tw-flex-col tw-items-start tw-gap-1 tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
           <h5>Rating</h5>
           <RatingChip :rating="post.rating" />
+          <h5 v-if="post.source">
+            Source
+          </h5>
+          <ul v-if="post.source">
+            <li
+              v-for="(src, i) in post.source_array"
+              :key="i"
+            >
+              <SourceLink
+                size="small"
+                :source="src"
+              />
+            </li>
+          </ul>
           <h5>Statistics</h5>
           <ul>
             <li><UserLink :user="{creator_id: post.creator_id, owner: post.owner}" /></li>
@@ -28,7 +42,7 @@
             <li>Score: {{ post.score.toLocaleString() }}</li>
           </ul>
           <v-btn
-            class="tw-mx-auto tw-mt-4"
+            class="tw-mt-4"
             color="primary"
             append-icon="mdi-open-in-new"
             :href="`https://gelbooru.com/index.php?page=post&s=view&id=${post.id}`"
@@ -84,6 +98,7 @@ import RatingChip from '@/components/Gelbooru/RatingChip.vue'
 import TagChip from '@/components/Gelbooru/TagChip.vue'
 import UserLink from '@/components/Gelbooru/UserLink.vue'
 import { computed } from 'vue'
+import SourceLink from '@/components/Gelbooru/SourceLink.vue'
 
 const propsPostDetail = defineProps({
   id: {
