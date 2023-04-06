@@ -56,6 +56,19 @@ console.log(import.meta.env.VITE_BACKEND_URL ?? 'no env var')
       </v-list>
     </v-navigation-drawer>
     <v-main>
+      <v-scale-transition>
+        <div
+          v-if="appStore.loading"
+          class="tw-fixed tw-top-16 tw-left-1/2 tw-z-50 tw-flex -tw-translate-x-1/2 tw-flex-row tw-justify-center tw-pt-2"
+        >
+          <div class="tw-rounded-full tw-bg-black tw-bg-opacity-50 tw-p-2 tw-backdrop-blur-sm">
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            />
+          </div>
+        </div>
+      </v-scale-transition>
       <v-container
         fluid
         class="tw-flex tw-min-h-[98vh] tw-flex-col tw-items-center tw-pb-20"

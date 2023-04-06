@@ -16,20 +16,6 @@
       </div>
     </v-expand-transition>
 
-    <v-scale-transition>
-      <div
-        v-if="loadingPosts"
-        class="tw-fixed tw-top-16 tw-left-1/2 tw-z-50 tw-flex tw-flex-row tw-justify-center tw-pt-2"
-      >
-        <div class="tw-rounded-full tw-bg-black tw-bg-opacity-50 tw-p-2 tw-backdrop-blur-sm">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-          />
-        </div>
-      </div>
-    </v-scale-transition>
-
     <div
       v-if="posts.length > 0"
       class="tw-mt-8 tw-grid tw-grid-cols-1 tw-gap-4 sm:tw-grid-cols-2 md:tw-grid-cols-4 lg:tw-grid-cols-5 2xl:tw-grid-cols-10"
@@ -64,9 +50,12 @@ import PostSearchBar from '@/components/Gelbooru/PostSearchBar.vue'
 
 import { GelbooruPost } from '@/types/gelbooru'
 import { useAuthStore } from '@/stores/auth'
+import { useAppStore } from '@/stores/app'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 
 const authStore = useAuthStore()
+const appStore = useAppStore()
+
 const router = useRouter()
 const display = useDisplay()
 
@@ -156,7 +145,6 @@ function searchFavorites(query: string) {
 
 // Get posts at start
 const posts = ref<GelbooruPost[]>([])
-const loadingPosts = ref(false)
 const abortControllerPosts = ref<AbortController | undefined>(undefined)
 
 function getPosts() {
@@ -166,7 +154,7 @@ function getPosts() {
 
   abortControllerPosts.value = new AbortController()
 
-  loadingPosts.value = true
+  appStore.loading = true
 
   return axios.get('/post', {
     signal: abortControllerPosts.value.signal,
@@ -190,7 +178,7 @@ function getPosts() {
   })
   .finally(() => {
     abortControllerPosts.value = undefined
-    loadingPosts.value = false
+    appStore.loading = false
     window.scrollTo(0, 0)
   })
 }

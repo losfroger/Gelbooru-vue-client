@@ -1,18 +1,8 @@
 <template>
   <div class="view-container">
-    <div
-      v-if="loading"
-      class="tw-flex tw-flex-col tw-items-center"
-    >
-      <v-progress-circular
-        indeterminate
-        size="80"
-        color="primary"
-      />
-    </div>
     <!--tw-relative tw-flex tw-flex-col-reverse tw-justify-center tw-gap-2 md:tw-flex-row-->
     <div
-      v-else
+      v-if="!appStore.loading"
       class="tw-grid tw-grid-cols-1 tw-gap-12 md:tw-grid-cols-[1fr_3fr_1fr] md:tw-gap-8"
     >
       <div>
@@ -99,6 +89,9 @@ import TagChip from '@/components/Gelbooru/TagChip.vue'
 import UserLink from '@/components/Gelbooru/UserLink.vue'
 import { computed } from 'vue'
 import SourceLink from '@/components/Gelbooru/SourceLink.vue'
+import { useAppStore } from '@/stores/app'
+
+const appStore = useAppStore()
 
 const propsPostDetail = defineProps({
   id: {
@@ -150,6 +143,7 @@ const post = ref<GelbooruPost>({
   is_sound: false,
 })
 
+appStore.loading = true
 axios.get(`post/${propsPostDetail.id}`)
 .then((result) => {
   console.log(result)
@@ -160,7 +154,7 @@ axios.get(`post/${propsPostDetail.id}`)
 
 })
 .finally(() => {
-  loading.value = false
+  appStore.loading = false
 })
 
 const isVideoFile = computed(() => {
