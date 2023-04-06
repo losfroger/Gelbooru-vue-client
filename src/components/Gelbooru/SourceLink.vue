@@ -34,28 +34,28 @@ const typeSource = computed(() => {
   if (/(twitter)/.test(propsSrcLink.source))
   {
     return {
-      icon: '/public/icons/twitter.svg',
+      icon: '/icons/twitter.svg',
       text: 'Twitter'
     }
   }
   if (/(pixiv)/.test(propsSrcLink.source))
   {
     return {
-      icon: '/public/icons/pixiv.svg',
+      icon: '/icons/pixiv.svg',
       text: 'Pixiv'
     }
   }
   if (/(patreon)/.test(propsSrcLink.source))
   {
     return {
-      icon: '/public/icons/patreon.svg',
+      icon: '/icons/patreon.svg',
       text: 'Patreon'
     }
   }
   if (/(instagram)/.test(propsSrcLink.source))
   {
     return {
-      icon: '/public/icons/instagram.svg',
+      icon: '/icons/instagram.svg',
       text: 'Instagram'
     }
   }
